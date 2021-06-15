@@ -65,7 +65,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraScript.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <None Include="Assets\Course Library\_Source_Files\_LICENSE.txt" />
     <Reference Include="UnityEngine.Purchasing">
       <HintPath>D:/Unity/Prototype 4 - Ball Sumo/Library/ScriptAssemblies/UnityEngine.Purchasing.dll</HintPath>
