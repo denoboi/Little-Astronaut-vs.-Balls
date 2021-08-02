@@ -45,6 +45,15 @@ public class PlayerController : MonoBehaviour
             enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse); //aninda bir hizlanma istedigimiz icin forcemode.impulse kullandik.
             Debug.Log("Collided with" + gameObject + "with power up set to: " + hasPowerup);
         }
+        if(collision.gameObject.CompareTag("Enemy") && !hasPowerup)
+        {
+            Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
+            
+            enemyRb.AddForce(collision.gameObject.transform.position);
+            Debug.Log("Collided with" + gameObject + "with power up set to: " + !hasPowerup);
+        }
+
+            
     }
     IEnumerator PowerupCountdownRoutine() //powerup suresi
     {

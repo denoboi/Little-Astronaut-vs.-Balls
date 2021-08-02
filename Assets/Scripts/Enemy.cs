@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         enemyRb.AddForce(lookDirection * speed);
 
         //burada dusman duserse eger daha hizli bir sekilde dusup yok oluyor.
-        if (gameObject.transform.position.y < -3)
+        if (gameObject.transform.position.y < -1)
         {
             enemyRb.AddForce(Vector3.down, ForceMode.Impulse);
         }
@@ -29,4 +29,7 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }            
     }
+
+    
+        
 }
