@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5;
     public float powerUpStrength = 10;
+    public float turnSpeed;
     public GameObject powerupIndicator;
     private Rigidbody playerRb;
     private GameObject focalPoint;
@@ -21,8 +22,12 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        
+        float turn = Input.GetAxis("Horizontal");
+		transform.Rotate(0, turn * turnSpeed * Time.deltaTime, 0);
+
         float verticalMove = Input.GetAxis("Vertical");
-        playerRb.AddForce(focalPoint.transform.forward * verticalMove * speed);
+        playerRb.AddForce(transform.forward * verticalMove * speed);
         powerupIndicator.transform.position = gameObject.transform.position + new Vector3(0, -0.2f, 0); // player ile power up indikator ayni anda hareket etmeli.
     }
     private void OnTriggerEnter(Collider other)
@@ -45,13 +50,13 @@ public class PlayerController : MonoBehaviour
             enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse); //aninda bir hizlanma istedigimiz icin forcemode.impulse kullandik.
             Debug.Log("Collided with" + gameObject + "with power up set to: " + hasPowerup);
         }
-        if(collision.gameObject.CompareTag("Enemy") && !hasPowerup)
-        {
-            Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
+        // if(collision.gameObject.CompareTag("Enemy") && !hasPowerup)
+        // {
+        //     Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>();
             
-            enemyRb.AddForce(collision.gameObject.transform.position);
-            Debug.Log("Collided with" + gameObject + "with power up set to: " + !hasPowerup);
-        }
+        //     enemyRb.AddForce(collision.gameObject.transform.position);
+        //     Debug.Log("Collided with" + gameObject + "with power up set to: " + !hasPowerup);
+        // }
 
             
     }
