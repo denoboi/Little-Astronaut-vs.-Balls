@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     {
         enemyRb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
+        
     }
 
     void Update()
@@ -20,9 +21,9 @@ public class Enemy : MonoBehaviour
         enemyRb.AddForce(lookDirection * speed);
 
         //burada dusman duserse eger daha hizli bir sekilde dusup yok oluyor.
-        if (gameObject.transform.position.y < -1)
+        if (gameObject.transform.position.y < -2)
         {
-            enemyRb.AddForce(Vector3.down, ForceMode.Impulse);
+            enemyRb.AddForce(Vector3.down);
         }
         if (gameObject.transform.position.y < -15)
         {

@@ -426,6 +426,9 @@ MonoBehaviour:
   turnSpeed: 0
   powerupIndicator: {fileID: 1827560065}
   hasPowerup: 0
+  jumpForce: 0
+  isOnGround: 0
+  gameOver: 0
 --- !u!1 &852283361 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1147752367711628, guid: 2abf19653d633114faedf3b60dc6c39f,
@@ -445,11 +448,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 8
-  powerUpStrength: 10
-  turnSpeed: 128.78
+  powerUpStrength: 5
+  turnSpeed: 193
   powerupIndicator: {fileID: 1742899641471652, guid: 923deea38dc6a8843b15db7638919c1e,
     type: 3}
   hasPowerup: 0
+  jumpForce: 35
+  isOnGround: 0
+  gameOver: 0
 --- !u!54 &852283367
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -458,7 +464,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852283361}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -475,7 +481,7 @@ BoxCollider:
   m_GameObject: {fileID: 852283361}
   m_Material: {fileID: 13400000, guid: dc14c9a38e9c7e24cbb7ce859f7e648a, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.10690641, y: 0.21711896, z: 0.11347773}
   m_Center: {x: -0.001566616, y: 0.114647865, z: -0.010854592}
@@ -493,6 +499,19 @@ CapsuleCollider:
   m_Height: 0.34
   m_Direction: 1
   m_Center: {x: -0.02, y: 0.15, z: 0}
+--- !u!135 &852283370
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852283361}
+  m_Material: {fileID: 13400000, guid: dc14c9a38e9c7e24cbb7ce859f7e648a, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Center: {x: 0, y: 0.13, z: 0}
 --- !u!1001 &1058560786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -572,7 +591,7 @@ PrefabInstance:
     - target: {fileID: 114551384804589004, guid: 2abf19653d633114faedf3b60dc6c39f,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 143350241100547368, guid: 2abf19653d633114faedf3b60dc6c39f,
         type: 3}
@@ -743,6 +762,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Island
       objectReference: {fileID: 0}
+    - target: {fileID: 1301643505922104, guid: 961be46ca9a355943ae3f65c47741bb0, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4625923886776944, guid: 961be46ca9a355943ae3f65c47741bb0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -833,16 +856,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9012573152703206093, guid: b9d63c3af460b9e40ae41e53f256699d,
-        type: 3}
-      propertyPath: speed
-      value: 55
-      objectReference: {fileID: 0}
-    - target: {fileID: 9012573152703206098, guid: b9d63c3af460b9e40ae41e53f256699d,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1.28
-      objectReference: {fileID: 0}
     - target: {fileID: 9012573152703206099, guid: b9d63c3af460b9e40ae41e53f256699d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -902,11 +915,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 9012573152703206103, guid: b9d63c3af460b9e40ae41e53f256699d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9d63c3af460b9e40ae41e53f256699d, type: 3}
