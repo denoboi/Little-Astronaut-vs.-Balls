@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    public float rotateSpeed = 10;
+    public float rotateSpeed = 5;
     
     void Start()
     {
