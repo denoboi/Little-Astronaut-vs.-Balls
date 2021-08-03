@@ -6,11 +6,13 @@ public class SpawnManager : MonoBehaviour
 {
     public int enemyCount;
     public int spawnNumber = 1;
-    public GameObject enemyPrefab;
+    public GameObject[] enemyPrefabs;
     public GameObject powerupPrefab;
+    private int randomEnemy;
 
     void Start()
     {
+        
         SpawnEnemyWave(spawnNumber); // baslangicta 1 tane gelsin
         Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
     }
@@ -38,7 +40,8 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPos(), enemyPrefab.transform.rotation);
+            int randomEnemy = Random.Range(0, 2);
+            Instantiate(enemyPrefabs[randomEnemy], GenerateSpawnPos(), enemyPrefabs[randomEnemy].transform.rotation);
         }
     }
 

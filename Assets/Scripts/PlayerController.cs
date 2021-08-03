@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
         
 
         // player ile power up indikator ayni anda hareket etmeli.
-        powerupIndicator.transform.position = gameObject.transform.position + new Vector3(0, -0.2f, 0);
+        powerupIndicator.transform.position = gameObject.transform.position + new Vector3(0, 1f, 0);
 
         Jump();
          

@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     public float speed;
     private Rigidbody enemyRb;
     private GameObject player;
+    [SerializeField] private int force;
+    
    
     void Start()
     {
@@ -23,7 +25,7 @@ public class Enemy : MonoBehaviour
         //burada dusman duserse eger daha hizli bir sekilde dusup yok oluyor.
         if (gameObject.transform.position.y < -2)
         {
-            enemyRb.AddForce(Vector3.down);
+            enemyRb.AddForce(Vector3.down * force);
         }
         if (gameObject.transform.position.y < -15)
         {
