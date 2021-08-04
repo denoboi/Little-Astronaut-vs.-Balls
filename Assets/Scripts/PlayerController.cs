@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float powerUpStrength = 10;
     public float turnSpeed;
-    public GameObject powerupIndicator;
+    public GameObject[] powerupIndicators;
     private Rigidbody playerRb;
     private GameObject focalPoint;
     public bool hasPowerup = false;
@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     private Animator moveAnim;
     public bool isOnGround = true;
     public bool gameOver;
+    public PowerUpType currentPowerUp = PowerUpType.None;
+
+    public GameObject rocketPrefab;
+    private GameObject tmpRocket;
+    private Coroutine powerupCountdown;
     
     
     void Start()
@@ -35,22 +40,51 @@ public class PlayerController : MonoBehaviour
         
 
         // player ile power up indikator ayni anda hareket etmeli.
-        powerupIndicator.transform.position = gameObject.transform.position + new Vector3(0, -0.2f, 0);
+        powerupIndicators[0].transform.position = gameObject.transform.position + new Vector3(0, 1f, 0);
+        powerupIndicators[1].transform.position = gameObject.transform.position + new Vector3(0.5f, 3f, 0.5f);
+        
 
         Jump();
+
+        if (currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F))
+        {
+            LaunchRockets();
+        }
          
 
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PowerUp")) //if other thing that we run into is a power up:
+        if(other.gameObject.CompareTag("PowerUp")) //if other thing that we run into is a power up:
         {
             hasPowerup = true;
+            currentPowerUp = other.gameObject.GetComponent<PowerUp>().powerUpType;
             Destroy(other.gameObject);
-            StartCoroutine(PowerupCountdownRoutine());
-            powerupIndicator.gameObject.SetActive(true);
+            powerupIndicators[0].gameObject.SetActive(true);
+
+            if(powerupCountdown != null)
+            {
+                StopCoroutine(powerupCountdown);
+            }
+            
+            powerupCountdown = StartCoroutine(PowerupCountdownRoutine());
+            
+        }
+        if(other.gameObject.CompareTag("PowerUp2")) //if other thing that we run into is a power up2:
+        {
+            hasPowerup = true;
+            currentPowerUp = other.gameObject.GetComponent<PowerUp>().powerUpType;
+            Destroy(other.gameObject);
+            powerupIndicators[1].gameObject.SetActive(true);
+
+            if(powerupCountdown != null)
+            {
+                StopCoroutine(powerupCountdown);
+            }
+            powerupCountdown = StartCoroutine(PowerupCountdownRoutine());
         }
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -58,12 +92,12 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = true;
         }
-        if(collision.gameObject.CompareTag("Enemy") && hasPowerup)
+        if(collision.gameObject.CompareTag("Enemy") && currentPowerUp == PowerUpType.Pushback)
         {
             Rigidbody enemyRb = collision.gameObject.GetComponent<Rigidbody>(); //enemy rigidbodysi ama bunu tam carptigimizda aliyoruz
             Vector3 awayFromPlayer = collision.gameObject.transform.position - transform.position; //enemy'nin player'dan uzakligi. bunu da enemy pozisyonundan playerin pozisyonunu cikararak bulabiliriz.
             enemyRb.AddForce(awayFromPlayer * powerUpStrength, ForceMode.Impulse); //aninda bir hizlanma istedigimiz icin forcemode.impulse kullandik.
-            Debug.Log("Collided with" + gameObject + "with power up set to: " + hasPowerup);
+            Debug.Log("Collided with" + gameObject + "with power up set to: " + currentPowerUp.ToString());
         }
         // if(collision.gameObject.CompareTag("Enemy") && !hasPowerup)
         // {
@@ -75,11 +109,23 @@ public class PlayerController : MonoBehaviour
 
             
     }
+
     IEnumerator PowerupCountdownRoutine() //powerup suresi
     {
         yield return new WaitForSeconds(5);
         hasPowerup = false;
-        powerupIndicator.gameObject.SetActive(false);
+        currentPowerUp = PowerUpType.None;
+        powerupIndicators[0].gameObject.SetActive(false);
+        powerupIndicators[1].gameObject.SetActive(false);
+    }
+    void LaunchRockets()
+    {
+        foreach(var enemy in FindObjectsOfType<Enemy>())
+        {
+            tmpRocket = Instantiate(rocketPrefab, transform.position + Vector3.up,
+            Quaternion.identity);
+            tmpRocket.GetComponent<RocketBehaviour>().Fire(enemy.transform);
+        }
     }
 
     void Jump()
@@ -126,3 +172,4 @@ public class PlayerController : MonoBehaviour
         
     }
 }
+

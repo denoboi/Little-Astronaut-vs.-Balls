@@ -6,27 +6,44 @@ public class SpawnManager : MonoBehaviour
 {
     public int enemyCount;
     public int spawnNumber = 1;
-    public GameObject enemyPrefab;
-    public GameObject powerupPrefab;
+    public GameObject[] enemyPrefabs;
+    public GameObject[] powerupPrefabs;
+    private int randomEnemy;
 
     void Start()
     {
-        SpawnEnemyWave(spawnNumber); // baslangicta 1 tane gelsin
-        Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
+        int randomPowerup = Random.Range(0, powerupPrefabs.Length);
+        Instantiate(powerupPrefabs[0], GenerateSpawnPosition(),
+        powerupPrefabs[0].transform.rotation);
+        SpawnEnemyWaveEasy(spawnNumber); // kacinci spawn oldugu
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
-        if (enemyCount == 0)
+        if(enemyCount == 0 && spawnNumber < 3) //easy enemies until 3rd round
         {
             spawnNumber++; //enemy yok oldukca her defasinda artir
-            SpawnEnemyWave(spawnNumber);
-            Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
+            SpawnEnemyWaveEasy(spawnNumber);
+            Instantiate(powerupPrefabs[0], GenerateSpawnPosition(), powerupPrefabs[0].transform.rotation);
+           
         }
+        else if(spawnNumber >= 3 && enemyCount == 0) //harder enemies
+            {
+                spawnNumber++;
+                int randomPowerup = Random.Range(0, powerupPrefabs.Length);
+                Instantiate(powerupPrefabs[randomPowerup], GenerateSpawnPosition(),
+                powerupPrefabs[randomPowerup].transform.rotation);
+                SpawnEnemyWave(spawnNumber);
+            }
+        
+    
+
+    
     }
-    private Vector3 GenerateSpawnPos()
+    private Vector3 GenerateSpawnPosition()
     {
         float spawnPosX = Random.Range(-10, 10);
         float spawnPosZ = Random.Range(-10, 10);
@@ -38,8 +55,19 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < enemiesToSpawn; i++)
         {
-            Instantiate(enemyPrefab, GenerateSpawnPos(), enemyPrefab.transform.rotation);
+            int randomEnemy = Random.Range(0, 2);
+            Instantiate(enemyPrefabs[randomEnemy], GenerateSpawnPosition(), enemyPrefabs[randomEnemy].transform.rotation);
         }
     }
+
+    void SpawnEnemyWaveEasy(int enemiesToSpawn)
+    {
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            
+            Instantiate(enemyPrefabs[0], GenerateSpawnPosition(), enemyPrefabs[0].transform.rotation);
+        }
+    }
+        
 
 }
