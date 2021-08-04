@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         
-        SpawnEnemyWave(spawnNumber); // baslangicta 1 tane gelsin
+        SpawnEnemyWaveEasy(spawnNumber); // kacinci spawn oldugu
         Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
     }
 
@@ -21,12 +21,23 @@ public class SpawnManager : MonoBehaviour
     void Update()
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
-        if (enemyCount == 0)
+        if (enemyCount == 0 && spawnNumber < 3) //easy enemies until 3rd round
         {
             spawnNumber++; //enemy yok oldukca her defasinda artir
-            SpawnEnemyWave(spawnNumber);
+            SpawnEnemyWaveEasy(spawnNumber);
             Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
+           
         }
+        else if (spawnNumber >= 3 && enemyCount == 0) //harder enemies
+            {
+            spawnNumber++;
+            Instantiate(powerupPrefab, GenerateSpawnPos(), powerupPrefab.transform.rotation);
+            SpawnEnemyWave(spawnNumber);
+            }
+        
+    {
+
+    }
     }
     private Vector3 GenerateSpawnPos()
     {
@@ -44,5 +55,15 @@ public class SpawnManager : MonoBehaviour
             Instantiate(enemyPrefabs[randomEnemy], GenerateSpawnPos(), enemyPrefabs[randomEnemy].transform.rotation);
         }
     }
+
+    void SpawnEnemyWaveEasy(int enemiesToSpawn)
+    {
+        for (int i = 0; i < enemiesToSpawn; i++)
+        {
+            
+            Instantiate(enemyPrefabs[0], GenerateSpawnPos(), enemyPrefabs[0].transform.rotation);
+        }
+    }
+        
 
 }
